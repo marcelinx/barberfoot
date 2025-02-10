@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+$primary-color: #d4af37; // Dourado
+$secondary-color: #000000; // Preto
+$text-color: #ffffff; // Branco
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: $secondary-color;
+  color: $text-color;
+}
+
+header {
+  background-color: $primary-color;
+  padding: 1rem;
+  text-align: center;
+  color: $text-color;
+}
+
+footer {
+  background-color: $primary-color;
+  padding: 0.5rem;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: $text-color;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

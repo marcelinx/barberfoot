@@ -1,0 +1,80 @@
+<div class="agendamento-container">
+  <h1>Agende Seu Horário</h1>
+
+  <form [formGroup]="agendamentoForm" (ngSubmit)="onSubmit()" class="agendamento-form">
+    <!-- Seção de Dados Pessoais -->
+    <div class="form-section">
+      <h2>Seus Dados</h2>
+      <mat-form-field appearance="fill">
+        <mat-label>Nome Completo</mat-label>
+        <input matInput formControlName="nome" required>
+        <mat-error *ngIf="agendamentoForm.get('nome')?.invalid">Nome é obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone" placeholder="11999999999">
+        <mat-error *ngIf="agendamentoForm.get('telefone')?.invalid">Telefone inválido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>E-mail (opcional)</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="agendamentoForm.get('email')?.invalid">E-mail inválido</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Seção de Agendamento -->
+    <div class="form-section">
+      <h2>Detalhes do Agendamento</h2>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Serviço</mat-label>
+        <mat-select formControlName="servico">
+          <mat-option *ngFor="let servico of servicos" [value]="servico">
+            {{ servico }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Barbeiro</mat-label>
+        <mat-select formControlName="barbeiro" (selectionChange)="onDataSelecionada()">
+          <mat-option *ngFor="let barbeiro of barbeiros" [value]="barbeiro.id">
+            <div class="barbeiro-option">
+              <img [src]="barbeiro.fotoUrl" alt="{{ barbeiro.nome }}" class="barbeiro-foto">
+              {{ barbeiro.nome }}
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="data" (dateChange)="onDataSelecionada()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="horariosDisponiveis.length > 0">
+        <mat-label>Horário</mat-label>
+        <mat-select formControlName="horario">
+          <mat-option *ngFor="let horario of horariosDisponiveis" [value]="horario">
+            {{ horario }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="agendamentoForm.invalid || carregando"
+  >
+    <app-loading-spinner *ngIf="carregando" [diameter]="20"></app-loading-spinner>
+    {{ carregando ? 'Agendando...' : 'Confirmar Agendamento' }}
+  </button>
+  
+  </form>
+</div>
